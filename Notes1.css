@@ -1,0 +1,152 @@
+html{
+	background-color: rgb(39,40,34);
+}
+h1{
+	color: rgb(254,129,0);
+	text-align: center;
+	text-shadow: 1px 1px 3px black;
+	font-size: 300%;
+	margin:0px;
+	border:3px solid white;
+	border-left: 0px;
+	border-right: 0px;
+}
+button{
+	background-color:rgb(23,24,20);
+	color: rgb(254,129,0);
+	border:2px solid grey;
+	border-radius:4px;
+	font-size:125%;
+}
+button:active{
+	background-color:rgb(254,129,0);
+	color:white;
+}
+#Header{
+	position: absolute;
+	top:0%;
+	height: 10%;
+	width:100%;
+	background-color: rgb(77,75,69);
+	box-shadow: 2px 2px 5px grey;
+}
+#inputArea{
+	position: absolute;
+	top:12%;
+	height: 15%;
+	width:100%;
+}
+#inputText{
+	position: relative;
+	left:5%;
+	top:5%;
+	width:75%;
+	height: 90%;
+	background-color: black;
+	color: white;
+	font-size: 125%;
+	animation-name: textColor;
+	animation-duration: 8s; 
+	animation-iteration-count: infinite;
+}
+@keyframes textColor{
+    0% {color: white;}
+    25% {color: rgb(226,239,0);}
+    50% {color: rgb(84,209,239);}
+    75% {color: rgb(0,255,43);}
+    100% {color: white;}
+}
+#inputSubmit{
+	position:relative;
+	left:8%;
+	bottom:77px;
+	width:10%;
+	height:40px;
+	
+}
+#inputPriority{
+	position: relative;
+	right:2.3%;
+	bottom:33px;
+	width:10%;
+	height:40px;
+	background-color:rgb(23,24,20);
+	color: white;
+	border:2px solid grey;
+	border-radius:4px;
+	font-size: 125%;
+	color: rgb(254,129,0);
+}
+#inputSort{
+	position:relative;
+	left:83.7%;
+	bottom:30px;
+	width:10%;
+	height:40px;
+}
+#HP{
+	color:rgb(226,239,0);
+	font-size: 150%;
+}
+#MP{
+	color:rgb(84,209,239);
+	font-size:125%;
+}
+#LP{
+	color:rgb(0,255,43);
+	font-size: 100%;
+}
+#noteContainer{
+	position: absolute;
+	top:30%;
+	width: 100%;
+	word-wrap: break-word;
+}
+.note{
+	margin: 10px;
+	margin-left: 0px;
+	margin-right: 0px;
+	background-color: rgb(23,24,20);
+	min-height: 45px;
+}
+.noteHigh{
+	color:rgb(226,239,0);
+	font-size: 200%;
+	font-weight: bold;
+	padding: 5px;
+}
+.noteMedium{
+	color:rgb(84,209,239);
+	font-size: 175%;
+	padding: 3px;
+}
+.noteLow{
+	color:rgb(0,255,43);
+	font-size: 150%;
+	padding: 2px;
+}
+.noteEdit{
+	position: static;
+	height:40px;
+	font-size: 32px;
+	margin: 2px;
+}
+.noteDel{
+	position:static;
+	height:40px;
+	font-size: 32px;
+	margin:2px;
+}
+.Confirm{
+	position:absolute;
+	left:0px;
+	font-size: 32px;
+	margin:2px;
+}
+p{
+	margin-left:2px;
+	margin-right:2px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	width: 100%;
+}

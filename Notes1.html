@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+	
+	<!--The Elements-->
+
+<html>
+<head>
+	<title>Joe Hacker's Notes</title>
+	<link rel="stylesheet" href="Notes1.css">
+</style>
+</head>
+<body>
+	<div id="Header">
+		<h1>Joe's Notes</h1>
+	</div>
+	<div id="inputArea">
+		<textarea id="inputText"></textarea>
+		<button id="inputSubmit">SUBMIT</button>
+		<select id="inputPriority">
+			<option id="HP">High Priority</option>
+			<option id="MP">Medium Priority</option>
+			<option id="LP">Low Priority</option>
+		</select>
+		<button id="inputSort">SORT</button>
+	</div>
+	<div id="noteContainer">
+		<div id="noteArea"></div>
+	</div>
+
+	<!--The Script-->
+
+<script>
+	var text=document.querySelector("textarea");
+	var submit=document.querySelectorAll("button")[0];
+	var select=document.getElementById("inputPriority");
+	var sort=document.querySelectorAll("button")[1];
+	var area=document.getElementById("noteArea");
+	
+	submit.addEventListener("click",function(){addNotes(text.value,select.selectedIndex);});
+	
+	sort.addEventListener("click",function(){sortNotes(area);});
+	
+	if(localStorage.getItem("MemorySize")){
+		var size=localStorage.getItem("MemorySize");
+		for(var j=0;j<size;j++){
+			addNotes(localStorage.getItem("Memory"+j),localStorage.getItem("MemoryPriority"+j));
+		}
+	}
+
+
+	function store(area){
+		if(area.childNodes.length){
+			console.log(area.childNodes.length);
+			for(var i=0;i<area.childNodes.length;i++){
+				localStorage.setItem("Memory"+i,area.childNodes[i].firstChild.textContent);
+				var p=area.childNodes[i].getAttribute("Priority");
+				localStorage.setItem("MemoryPriority"+i,p);
+				localStorage.setItem("MemorySize",i+1);
+			}
+		}
+	}
+	
+	function addNotes(input,priority){
+		if(input){
+			var note=document.createElement("div");
+			var para=document.createTextNode(input);
+			var p=document.createElement("p");
+			var edit=document.createElement("button");
+			var del=document.createElement("button");
+			edit.innerHTML="Edit";
+			edit.className="noteEdit";
+			del.innerHTML="Delete";
+			del.className="noteDel";
+			p.appendChild(para);
+			note.appendChild(p);
+			note.appendChild(edit);
+			note.appendChild(del);
+			if(priority==0){
+				note.className="note noteHigh";
+				note.setAttribute("Priority",0);
+			}
+			if(priority==1){
+				note.className="note noteMedium";
+				note.setAttribute("Priority",1);
+			}
+			if(priority==2){
+				note.className="note noteLow";
+				note.setAttribute("Priority",2);
+			}
+			area.appendChild(note);
+			text.value="";
+			del.addEventListener("click",function(){deleteNotes(note);});	
+			edit.addEventListener("click",function(){editNotes(note);});
+			store(area);
+		}	
+	}
+
+	function deleteNotes(note){
+		if(prompt('Are you sure you want to delete the note (y/n):')=='y'){
+				note.parentNode.insertBefore(note,note.parentNode.childNodes[0]);
+				note.parentNode.removeChild(note.parentNode.childNodes[0]);
+				localStorage.removeItem("Memory"+0);
+				store(area);			
+		}
+	}
+	
+	function editNotes(note){
+		text.value=note.firstChild.textContent;
+		var cnf=document.createElement("button");
+		cnf.innerHTML="Confirm";
+		cnf.className="Confirm";
+		note.appendChild(cnf);
+		note.childNodes[1].style.visibility="hidden";
+		note.childNodes[2].style.visibility="hidden";
+		document.getElementById("inputSubmit").style.visibility="hidden";
+		document.getElementById("inputSort").style.visibility="hidden";
+		for(var a=0;a<area.childNodes.length;a++){
+			area.childNodes[a].childNodes[1].disabled=true;
+			area.childNodes[a].childNodes[2].disabled=true;
+		}
+		cnf.addEventListener("click",function(){
+			note.firstChild.textContent=text.value;
+			text.value="";
+			var priority=document.getElementById("inputPriority").selectedIndex;
+			if(priority==0){
+				note.classList.remove("noteMedium");
+				note.classList.remove("noteLow");
+				note.className="note noteHigh";
+				note.setAttribute("Priority",0);
+			}
+			if(priority==1){
+				note.classList.remove("noteHigh");
+				note.classList.remove("noteLow");
+				note.className="note noteMedium";
+				note.setAttribute("Priority",1);
+			}	
+			if(priority==2){
+				note.classList.remove("noteMedium");
+				note.classList.remove("noteHigh");
+				note.className="note noteLow";
+				note.setAttribute("Priority",2);
+			}
+			document.getElementById("inputSubmit").style.visibility="visible";
+			document.getElementById("inputSort").style.visibility="visible";
+			note.childNodes[1].style.visibility="visible";
+			note.childNodes[2].style.visibility="visible";
+			for(var a=0;a<area.childNodes.length;a++){
+				area.childNodes[a].childNodes[1].disabled=false;
+				area.childNodes[a].childNodes[2].disabled=false;
+			}
+			note.removeChild(note.lastChild);
+			store(area);
+		});
+	}
+	
+	function sortNotes(area){
+		var i=0,j=0;
+		for(i=0;i<area.childNodes.length;i++){
+			for(j=i+1;j<area.childNodes.length;j++){
+				if(area.childNodes[i].getAttribute("Priority")>area.childNodes[j].getAttribute("Priority")){
+					area.insertBefore(area.childNodes[j],area.childNodes[i]);
+				}
+			}
+		store(area);
+		}
+	}
+	
+</script>
+</body>
+</html>
